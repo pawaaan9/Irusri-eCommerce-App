@@ -37,8 +37,13 @@ const ShoppingCart = () => {
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => {
-      const price = parseFloat(item.price.replace("$", ""));
-      return total + price * item.quantity;
+      const price = typeof item.price === "string"
+        ? parseFloat(item.price.replace("$", ""))
+        : item.price;
+
+      const validPrice = isNaN(price) ? 0 : price;
+
+      return total + validPrice * item.quantity;
     }, 0);
   };
 
@@ -66,13 +71,7 @@ const ShoppingCart = () => {
                   />
                   <div>
                     <h2 className="text-lg font-semibold text-gray-700">{item.name}</h2>
-                    <p className="text-gray-600">Unit Price: {item.price}</p>
-                    <p className="text-gray-600">
-                      Total: $
-                      {(
-                        parseFloat(item.price.replace("$", "")) * item.quantity
-                      ).toFixed(2)}
-                    </p>
+                    <p className="text-gray-600">{item.price}</p>
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => handleDecreaseQuantity(item.id)}
@@ -91,7 +90,7 @@ const ShoppingCart = () => {
                   </div>
                   <button
                     onClick={() => handleRemoveItem(item.id)}
-                    className="bg-[#FB7185] text-white py-2 px-4 rounded-md hover:bg-[#e74c4c] transition"
+                    className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition"
                   >
                     Remove
                   </button>
