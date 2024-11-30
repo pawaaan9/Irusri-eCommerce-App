@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Header from "../Layout/header";
 import Footer from "../Layout/footer";
 import { useNavigate } from "react-router-dom";
@@ -19,74 +19,77 @@ const Products = () => {
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [maxPrice, setMaxPrice] = useState(1500);
+
   const products = [
     {
       id: 1,
       name: "Iphone 16 Pro Max",
-      price: "$1000",
+      price: 1000,
       image: iphone16promax,
       description: "The latest iPhone with advanced features.",
     },
     {
       id: 2,
       name: "Iphone 16 Pro",
-      price: "$900",
+      price: 900,
       image: iphone16pro,
       description: "A powerful iPhone with a sleek design.",
     },
     {
       id: 3,
       name: "Iphone 16 Plus",
-      price: "$800",
+      price: 800,
       image: iphone16plus,
       description: "A larger iPhone with enhanced capabilities.",
     },
     {
       id: 4,
       name: "Iphone 16",
-      price: "$750",
+      price: 750,
       image: iphone16,
       description: "The standard iPhone 16 with great performance.",
     },
     {
       id: 5,
       name: "Iphone 15 Pro Max",
-      price: "$750",
+      price: 750,
       image: iphone15promax,
       description: "The previous generation Pro Max model.",
     },
     {
       id: 6,
       name: "Iphone 15 Plus",
-      price: "$750",
+      price: 700,
       image: iphone15plus,
       description: "The previous generation Plus model.",
     },
     {
       id: 7,
       name: "Iphone 15",
-      price: "$750",
+      price: 650,
       image: iphone15,
       description: "The previous generation standard model.",
     },
     {
       id: 8,
       name: "Iphone 14",
-      price: "$750",
+      price: 550,
       image: iphone14,
       description: "A reliable iPhone with essential features.",
     },
     {
       id: 9,
       name: "Iphone 12",
-      price: "$750",
+      price: 450,
       image: iphone12,
       description: "An older model with solid performance.",
     },
     {
       id: 10,
       name: "Iphone 11",
-      price: "$750",
+      price: 250,
       image: iphone11,
       description: "A budget-friendly iPhone with good features.",
     },
@@ -97,7 +100,7 @@ const Products = () => {
   const handleAddToCart = (product: {
     id: number;
     name: string;
-    price: string;
+    price: number;
     image: string;
   }) => {
     setCartItems((prevItems) => {
@@ -115,8 +118,14 @@ const Products = () => {
   };
 
   const handleGoToCart = () => {
-    navigate("/cart"); 
+    navigate("/cart");
   };
+
+  const filteredProducts = products.filter(
+    (product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      product.price <= maxPrice
+  );
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -128,34 +137,63 @@ const Products = () => {
             Our Products
           </h1>
 
+          <div className="flex flex-wrap items-center gap-10 mb-6">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="border border-gray-300 rounded-md p-2 w-64"
+            />
+
+            <div className="flex items-center">
+              <label htmlFor="priceRange" className=" font-semibold mr-2">
+                Max: ${maxPrice}
+              </label>
+              <input
+                type="range"
+                id="priceRange"
+                min="0"
+                max="1500"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(Number(e.target.value))}
+                className="w-32 accent-[#14B8A6]"
+              />
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {products.map((product) => (
-              <div
-                key={product.id}
-                className="bg-white border border-gray-200 rounded-lg shadow-md p-4 hover:shadow-lg transition flex"
-              >
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-40 h-40 object-cover rounded-md mb-4"
-                />
-                <div className="ml-4 flex flex-col justify-between">
-                  <div>
-                    <h2 className="text-lg font-semibold text-gray-700">
-                      {product.name}
-                    </h2>
-                    <p className="text-gray-600">{product.price}</p>
-                    <p className="text-gray-500">{product.description}</p>
+            {filteredProducts.length > 0 ? (
+              filteredProducts.map((product) => (
+                <div
+                  key={product.id}
+                  className="bg-white border border-gray-200 rounded-lg shadow-md p-4 hover:shadow-lg transition flex"
+                >
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-40 h-40 object-cover rounded-md mb-4"
+                  />
+                  <div className="ml-4 flex flex-col justify-between">
+                    <div>
+                      <h2 className="text-lg font-semibold text-gray-700">
+                        {product.name}
+                      </h2>
+                      <p className="text-gray-600">${product.price}</p>
+                      <p className="text-gray-500">{product.description}</p>
+                    </div>
+                    <button
+                      onClick={() => handleAddToCart(product)}
+                      className="mt-3 bg-[#14B8A6] text-white py-1 px-2 text-sm rounded-md hover:bg-[#13a396] transition w-32"
+                    >
+                      Add to Cart
+                    </button>
                   </div>
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    className="mt-3 bg-[#14B8A6] text-white py-1 px-2 text-sm rounded-md hover:bg-[#13a396] transition w-32"
-                  >
-                    Add to Cart
-                  </button>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-gray-500 text-lg">No products found.</p>
+            )}
           </div>
         </div>
       </main>

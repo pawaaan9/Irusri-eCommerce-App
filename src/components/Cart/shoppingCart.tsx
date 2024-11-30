@@ -36,15 +36,7 @@ const ShoppingCart = () => {
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce((total, item) => {
-      const price = typeof item.price === "string"
-        ? parseFloat(item.price.replace("$", ""))
-        : item.price;
-
-      const validPrice = isNaN(price) ? 0 : price;
-
-      return total + validPrice * item.quantity;
-    }, 0);
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   return (
@@ -58,46 +50,55 @@ const ShoppingCart = () => {
           {cartItems.length === 0 ? (
             <p className="text-gray-500 text-lg">Your cart is empty.</p>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-6 w-full">
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white border border-gray-200 rounded-lg shadow-md p-4 flex items-center justify-between"
+                  className="bg-white border border-gray-200 rounded-lg shadow-md p-4 flex items-center space-x-4"
                 >
+               
                   <img
                     src={item.image}
                     alt={item.name}
                     className="w-20 h-20 object-cover rounded-md"
                   />
-                  <div>
-                    <h2 className="text-lg font-semibold text-gray-700">{item.name}</h2>
-                    <p className="text-gray-600">{item.price}</p>
-                    <div className="flex items-center space-x-2">
-                      <button
-                        onClick={() => handleDecreaseQuantity(item.id)}
-                        className="bg-gray-300 text-gray-700 px-2 py-1 rounded hover:bg-gray-400 transition"
-                      >
-                        -
-                      </button>
-                      <span className="text-gray-700">{item.quantity}</span>
-                      <button
-                        onClick={() => handleIncreaseQuantity(item.id)}
-                        className="bg-gray-300 text-gray-700 px-2 py-1 rounded hover:bg-gray-400 transition"
-                      >
-                        +
-                      </button>
-                    </div>
+
+                  <p className="flex-1 text-gray-700 font-semibold">{item.name}</p>
+
+                  <p className="flex-1 text-gray-600 text-center">
+                    ${item.price.toFixed(2)}
+                  </p>
+
+                  <div className="flex items-center space-x-2 text-center">
+                    <button
+                      onClick={() => handleDecreaseQuantity(item.id)}
+                      className="bg-gray-300 text-gray-700 px-2 py-1 rounded hover:bg-gray-400 transition"
+                    >
+                      -
+                    </button>
+                    <span className="text-gray-700 font-bold">{item.quantity}</span>
+                    <button
+                      onClick={() => handleIncreaseQuantity(item.id)}
+                      className="bg-gray-300 text-gray-700 px-2 py-1 rounded hover:bg-gray-400 transition"
+                    >
+                      +
+                    </button>
                   </div>
+
+                  <p className="flex-1 text-gray-800 text-center font-bold">
+                    ${(item.price * item.quantity).toFixed(2)}
+                  </p>
+
                   <button
                     onClick={() => handleRemoveItem(item.id)}
-                    className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition"
+                    className="bg-[#FB7185] text-white py-2 px-4 rounded-md transition"
                   >
                     Remove
                   </button>
                 </div>
               ))}
 
-              <div className="bg-gray-100 p-4 rounded-lg shadow-md flex justify-between items-center">
+              <div className="bg-gray-200 p-4 rounded-lg shadow-md flex justify-between items-center">
                 <h2 className="text-lg font-semibold text-gray-700">Total:</h2>
                 <p className="text-xl font-bold text-gray-800">${calculateTotal().toFixed(2)}</p>
               </div>
@@ -107,7 +108,7 @@ const ShoppingCart = () => {
           <div className="mt-6">
             <Link
               to="/products"
-              className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition"
+              className="bg-[#14B8A6] text-white py-2 px-4 rounded-md hover:bg-[#13a396] transition"
             >
               Back to Products
             </Link>

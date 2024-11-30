@@ -2,6 +2,8 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -28,8 +30,11 @@ const Register = () => {
     const user = { email: values.email, name: values.name };
     localStorage.setItem("user", JSON.stringify(user));
 
-    alert("Registration successful!");
-    navigate("/products");
+    toast.success("Successfully registered.");
+
+    setTimeout(() => {
+      navigate("/products");
+    }, 3000);
   };
 
   return (
@@ -42,7 +47,6 @@ const Register = () => {
       >
         {({ isSubmitting }) => (
           <Form className="flex flex-col space-y-4 px-5">
-            {/* Name Field */}
             <div>
               <label htmlFor="name" className="block text-gray-700 font-medium">
                 Name:
@@ -56,11 +60,10 @@ const Register = () => {
               <ErrorMessage
                 name="name"
                 component="div"
-                className="text-red-500 text-sm mt-1"
+                className="text-red-500 font-semibold text-sm mt-1"
               />
             </div>
 
-            {/* Email Field */}
             <div>
               <label htmlFor="email" className="block text-gray-700 font-medium">
                 Email:
@@ -74,11 +77,10 @@ const Register = () => {
               <ErrorMessage
                 name="email"
                 component="div"
-                className="text-red-500 text-sm mt-1"
+                className="text-red-500 font-semibold text-sm mt-1"
               />
             </div>
 
-            {/* Password Field */}
             <div>
               <label htmlFor="password" className="block text-gray-700 font-medium">
                 Password:
@@ -92,11 +94,10 @@ const Register = () => {
               <ErrorMessage
                 name="password"
                 component="div"
-                className="text-red-500 text-sm mt-1"
+                className="text-red-500 font-semibold text-sm mt-1"
               />
             </div>
 
-            {/* Confirm Password Field */}
             <div>
               <label htmlFor="confirmPassword" className="block text-gray-700 font-medium">
                 Confirm Password:
@@ -110,11 +111,10 @@ const Register = () => {
               <ErrorMessage
                 name="confirmPassword"
                 component="div"
-                className="text-red-500 text-sm mt-1"
+                className="text-red-500 font-semibold text-sm mt-1"
               />
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               className="w-full bg-[#14B8A6] text-white py-2 px-4 rounded-md hover:bg-[#14B8C1] transition disabled:bg-blue-300"
@@ -133,6 +133,7 @@ const Register = () => {
           </Link>
         </p>
       </div>
+      <ToastContainer />
     </div>
   );
 };

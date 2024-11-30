@@ -2,6 +2,8 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,7 +21,11 @@ const Login = () => {
     const user = { email: values.email };
     localStorage.setItem("user", JSON.stringify(user));
 
-    navigate("/products");
+    toast.success("Successfully logged in.");
+
+    setTimeout(() => {
+      navigate("/products");
+    }, 3000);
   };
 
   return (
@@ -36,7 +42,6 @@ const Login = () => {
         >
           {({ isSubmitting }) => (
             <Form className="flex flex-col space-y-4 px-5">
-              {/* Email Field */}
               <div>
                 <label htmlFor="email" className="block text-gray-700 font-medium">
                   Email:
@@ -49,11 +54,10 @@ const Login = () => {
                 <ErrorMessage
                   name="email"
                   component="div"
-                  className="text-red-500 text-sm mt-1"
+                  className="text-red-500 text-sm font-semibold mt-1"
                 />
               </div>
 
-              {/* Password Field */}
               <div>
                 <label htmlFor="password" className="block text-gray-700 font-medium">
                   Password:
@@ -67,14 +71,13 @@ const Login = () => {
                 <ErrorMessage
                   name="password"
                   component="div"
-                  className="text-red-500 text-sm mt-1"
+                  className="text-red-500 text-sm font-semibold mt-0.5"
                 />
               </div>
 
-              {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-[#14B8A6] text-white py-2 px-4 rounded-md hover:bg-[#14B8C1] transition disabled:bg-blue-300"
+                className="w-full bg-[#14B8A6] text-white py-2 px-4 rounded-md hover:bg-[#14B8C1] transition disabled:bg-[#14B8C1]"
                 disabled={isSubmitting}
               >
                 Login
@@ -82,8 +85,6 @@ const Login = () => {
             </Form>
           )}
         </Formik>
-
-        {/* Link to the Register page */}
         <div className="mt-4 text-center">
           <p className="text-gray-700">No account yet?</p>
           <Link
@@ -94,6 +95,7 @@ const Login = () => {
           </Link>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

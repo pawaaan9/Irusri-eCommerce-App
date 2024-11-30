@@ -1,20 +1,19 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import downArrow from '../../assets/icons/down.png';
 
 const Header = () => {
   const [user, setUser] = useState(() => {
-    // Retrieve user from localStorage if needed
     const user = localStorage.getItem("user");
     return user ? JSON.parse(user) : null;
   });
 
-  const [dropdownOpen, setDropdownOpen] = useState(false); // State to toggle the dropdown
+  const [dropdownOpen, setDropdownOpen] = useState(false); 
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Clear user data
     setUser(null);
-    localStorage.removeItem("user");
+    localStorage.clear(); // Clear all data from local storage
     navigate("/login");
   };
 
@@ -24,7 +23,6 @@ const Header = () => {
         <h2 className="text-xl font-bold">MobileMart</h2>
 
         <div className="flex items-center space-x-4">
-          {/* Cart button */}
           {user && (
             <Link
               to="/cart"
@@ -34,18 +32,16 @@ const Header = () => {
             </Link>
           )}
 
-          {/* Show user email and dropdown if logged in */}
           {user ? (
             <div className="relative">
               <button
-                onClick={() => setDropdownOpen(!dropdownOpen)} // Toggle dropdown
+                onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="flex items-center space-x-2 focus:outline-none"
               >
                 <span>{user.email}</span>
-                <span>⬇️</span>
+                <img src={downArrow} alt="Down Arrow" className="w-4 h-4" />
               </button>
 
-              {/* Dropdown for logout */}
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-32 bg-white text-gray-800 shadow-md rounded-md">
                   <button
@@ -58,7 +54,6 @@ const Header = () => {
               )}
             </div>
           ) : (
-            // Links if not logged in
             <>
               <Link
                 to="/login"

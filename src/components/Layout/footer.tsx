@@ -4,7 +4,6 @@ const Footer = () => {
   return (
     <footer className="bg-gray-800 text-white">
       <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-between">
-        {/* Logo and Description */}
         <div className="text-center md:text-left mb-4 md:mb-0">
           <h2 className="text-xl font-bold">MobileMart</h2>
           <p className="text-sm text-gray-400">
@@ -12,29 +11,27 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* Navigation Links */}
         <div className="flex space-x-6 text-sm text-gray-400">
-          <a href="/about" className="hover:text-yellow-300">
+          <a href="#" className="hover:text-[#14B8A6]">
             About Us
           </a>
-          <a href="/contact" className="hover:text-yellow-300">
+          <a href="#" className="hover:text-[#14B8A6]">
             Contact
           </a>
-          <a href="/privacy" className="hover:text-yellow-300">
+          <a href="#" className="hover:text-[#14B8A6]">
             Privacy Policy
           </a>
-          <a href="/terms" className="hover:text-yellow-300">
+          <a href="#" className="hover:text-[#14B8A6]">
             Terms of Service
           </a>
         </div>
 
-        {/* Social Media Links */}
         <div className="flex space-x-4 mt-4 md:mt-0">
           <a
             href="https://facebook.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-yellow-300"
+            className="hover:text-[#14B8A6]"
           >
             <svg
               className="w-6 h-6"
@@ -49,7 +46,7 @@ const Footer = () => {
             href="https://twitter.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-yellow-300"
+            className="hover:text-[#14B8A6]"
           >
             <svg
               className="w-6 h-6"
@@ -64,7 +61,7 @@ const Footer = () => {
             href="https://instagram.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-yellow-300"
+            className="hover:text-[#14B8A6]"
           >
             <svg
               className="w-6 h-6"
