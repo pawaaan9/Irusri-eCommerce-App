@@ -1,9 +1,11 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email address").required("Email is required"),
     password: Yup.string()
@@ -13,21 +15,27 @@ const Login = () => {
 
   const handleLogin = (values: { email: string; password: string }) => {
     console.log("Login data:", values);
-    alert("Login successful!");
+
+    const user = { email: values.email };
+    localStorage.setItem("user", JSON.stringify(user));
+
+    navigate("/products");
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="max-w-md mx-auto mt-10 p-6 bg-white border border-gray-300 rounded-lg shadow-md">
-        <h1 className="text-3xl font-bold text-center text-gray-700 mb-6">abc</h1>
-        <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">Login</h2>
+      <div className="max-w-md mx-auto p-20 bg-white border border-gray-300 rounded-lg shadow-md">
+        <h1 className="text-3xl font-bold text-center text-[#14B8A6] mb-6">
+          MobileMart
+        </h1>
+        <h2 className="text-2xl font-bold text-center text-[#FB7185] mb-6">Sign in</h2>
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={LoginSchema}
           onSubmit={(values) => handleLogin(values)}
         >
           {({ isSubmitting }) => (
-            <Form className="flex flex-col space-y-4">
+            <Form className="flex flex-col space-y-4 px-5">
               {/* Email Field */}
               <div>
                 <label htmlFor="email" className="block text-gray-700 font-medium">
@@ -37,8 +45,7 @@ const Login = () => {
                   type="email"
                   name="email"
                   id="email"
-                  className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                  className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#14B8A6]" />
                 <ErrorMessage
                   name="email"
                   component="div"
@@ -55,7 +62,7 @@ const Login = () => {
                   type="password"
                   name="password"
                   id="password"
-                  className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#14B8A6]"
                 />
                 <ErrorMessage
                   name="password"
@@ -67,7 +74,7 @@ const Login = () => {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition disabled:bg-blue-300"
+                className="w-full bg-[#14B8A6] text-white py-2 px-4 rounded-md hover:bg-[#14B8C1] transition disabled:bg-blue-300"
                 disabled={isSubmitting}
               >
                 Login
@@ -78,9 +85,12 @@ const Login = () => {
 
         {/* Link to the Register page */}
         <div className="mt-4 text-center">
-          <p className="text-gray-700">Don't have an account?</p>
-          <Link to="/register" className="text-blue-600 hover:underline">
-            Register here
+          <p className="text-gray-700">No account yet?</p>
+          <Link
+            to="/register"
+            className="text-[#14B8A6] hover:underline text-sm"
+          >
+            Create an account
           </Link>
         </div>
       </div>
