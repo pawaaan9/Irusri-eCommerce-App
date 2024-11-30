@@ -11,6 +11,8 @@ State managed via React Context.
 
 Product Management
 Displays a hardcoded list of products with name, price, description, and image.
+Search: Quickly find products by name.
+Filter by Price: Narrow down products within a specific price range.
 
 Shopping Cart
 Add items to the cart.
